@@ -89,7 +89,22 @@ class VolumeMixer(QWidget):
             sessions = AudioUtilities.GetAllSessions()
             current_process_ids = set()
             new_programs = []
-
+            exclude_processes = ['audiodg.exe', 'explorer.exe', 'SndVol.exe', 'SearchUI.exe', 'svchost.exe',
+                                 'chrome.exe', 'msedge.exe', 'firefox.exe', 'avastUI.exe', 'avgui.exe',
+                                 'OneDrive.exe', 'Dropbox.exe', 'googledrivesync.exe']
+            media_players = {
+                'vlc.exe': 'VLC Media Player',
+                'wmplayer.exe': 'Windows Media Player',
+                'iTunes.exe': 'iTunes',
+                'potplayer.exe': 'PotPlayer',
+                'mpc-hc.exe': 'Media Player Classic',
+                'Microsoft.Media.Player.exe': 'Microsoft Media Player',
+                'MicrosoftEdge.exe': 'Microsoft Edge',
+                'Teams.exe': 'Microsoft Teams',
+                'Word.exe': 'Microsoft Word',
+                'Excel.exe': 'Microsoft Excel',
+                'PowerPoint.exe': 'Microsoft PowerPoint'
+            }
             process_map = {}
 
             for session in sessions:
@@ -106,20 +121,21 @@ class VolumeMixer(QWidget):
                     current_process_ids.add(process_id)
 
                     if cleaned_name not in self.programs:
+                        # If the process name matches one of the media players, use the corresponding display name
+                        display_name = media_players.get(cleaned_name, cleaned_name)
                         volume = session._ctl.QueryInterface(ISimpleAudioVolume)
                         audio_meter = session._ctl.QueryInterface(IAudioMeterInformation)
-                        self.programs[cleaned_name] = {'volume': volume, 'meter': audio_meter}
+                        self.programs[display_name] = {'volume': volume, 'meter': audio_meter}
 
                         hbox = QHBoxLayout()
-                        hbox.setSpacing(5)  # Increased spacing for better visibility
-                        hbox.setContentsMargins(5, 5, 5, 5)  # Margins around each program item
+                        hbox.setSpacing(5)
+                        hbox.setContentsMargins(5, 5, 5, 5)
 
-                        label = QLabel(cleaned_name)
-                        label.setFixedSize(120, 30)  # Fixed size for labels
-                        label.setWordWrap(True)  # Enable word wrapping
+                        label = QLabel(display_name)
+                        label.setFixedSize(120, 30)
+                        label.setWordWrap(True)
                         label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
 
-                        # Apply background and styling
                         label.setStyleSheet("""
                             QLabel {
                                 background-color: #333333;
@@ -137,10 +153,10 @@ class VolumeMixer(QWidget):
                         slider.setMinimum(0)
                         slider.setMaximum(100)
                         slider.setValue(int(volume.GetMasterVolume() * 100))
-                        slider.valueChanged.connect(lambda value, name=cleaned_name: self.set_volume(name, value))
-                        self.sliders[cleaned_name] = slider
+                        slider.valueChanged.connect(lambda value, name=display_name: self.set_volume(name, value))
+                        self.sliders[display_name] = slider
 
-                        slider.setFixedSize(200, 30)  # Fixed size for sliders
+                        slider.setFixedSize(200, 30)
                         slider.setStyleSheet("""
                             QSlider::groove:horizontal {
                                 border: 1px solid #999999;
@@ -160,10 +176,10 @@ class VolumeMixer(QWidget):
                         hbox.addWidget(slider)
 
                         mute_button = QPushButton("M")
-                        mute_button.setFixedSize(30, 30)  # Fixed size for mute button
+                        mute_button.setFixedSize(30, 30)
                         mute_button.setStyleSheet("background-color: #555555; color: white; border-radius: 15px;")
-                        mute_button.clicked.connect(lambda _, name=cleaned_name: self.toggle_mute(name))
-                        self.mute_buttons[cleaned_name] = mute_button
+                        mute_button.clicked.connect(lambda _, name=display_name: self.toggle_mute(name))
+                        self.mute_buttons[display_name] = mute_button
 
                         hbox.addWidget(mute_button)
 
@@ -171,7 +187,7 @@ class VolumeMixer(QWidget):
                         level_bar.setMinimum(0)
                         level_bar.setMaximum(100)
                         level_bar.setTextVisible(False)
-                        level_bar.setFixedSize(100, 30)  # Fixed size for level bars
+                        level_bar.setFixedSize(100, 30)
                         level_bar.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
 
                         level_bar.setStyleSheet("""
@@ -189,7 +205,7 @@ class VolumeMixer(QWidget):
                         """)
 
                         hbox.addWidget(level_bar)
-                        self.level_bars[cleaned_name] = level_bar
+                        self.level_bars[display_name] = level_bar
                         new_programs.append(hbox)
 
             programs_to_remove = [program_name for program_name in self.programs.keys() if
