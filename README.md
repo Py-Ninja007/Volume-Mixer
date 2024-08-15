@@ -37,5 +37,5 @@ Ensure you have Python 3.x installed on your system. The required packages can b
 Running the Application
 After installing the required packages, you can run the application using:
    ```bash
-   python volume_mixer.py
+   python volumemixer.py
 
