@@ -41,7 +41,7 @@ class VolumeMixer(QWidget):
         self.restore_geometry()
 
     def initUI(self):
-        self.setWindowFlags(Qt.Window | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.Window | Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground, True)
         layout = QVBoxLayout()
         self.setGeometry(600, 600, 600, 800)  # Default geometry

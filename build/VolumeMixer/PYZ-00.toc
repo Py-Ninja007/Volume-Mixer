@@ -1,4 +1,4 @@
-('R:\\PYCHARM\\pythonProject2\\.venv\\Lib\\build\\VolumeMixer\\PYZ-00.pyz',
+('R:\\PYCHARM\\Volume Mixer\\Volume-Mixer\\build\\VolumeMixer\\PYZ-00.pyz',
  [('PyQt5',
    'C:\\Users\\Dorin\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\PyQt5\\__init__.py',
    'PYMODULE'),
