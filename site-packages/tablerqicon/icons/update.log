@@ -1,0 +1,6 @@
+repository: https://github.com/tabler/tabler-icons.git
+branch: main
+synced: 2024-03-11 22:00:34 UTC
+icons_before: 0
+commit: d746734 Unit tests update (#1036)
+icons_after: 0
