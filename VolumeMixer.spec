@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['VolumeMIxer.py'],
+    ['VolumeMixer.py'],
     pathex=[],
     binaries=[],
     datas=[],
@@ -22,7 +22,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='VolumeMIxer',
+    name='VolumeMixer',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

@@ -105,7 +105,8 @@ class VolumeMixer(QWidget):
                 'audiodg.exe', 'explorer.exe', 'SndVol.exe', 'SearchUI.exe',
                 'svchost.exe', 'avastUI.exe', 'avgui.exe', 'OneDrive.exe',
                 'Dropbox.exe', 'googledrivesync.exe','SteelSeriesSonar.exe',
-                'SteelSeriesEngine.exe', 'SteelSeriesPrism.exe', 'steelseriessonar.exe'
+                'SteelSeriesEngine.exe', 'SteelSeriesPrism.exe', 'steelseriessonar.exe',
+                'steam.exe'
             ]
             media_players = {
                 'vlc.exe': 'VLC',
