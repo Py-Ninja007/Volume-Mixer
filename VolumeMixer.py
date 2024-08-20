@@ -125,7 +125,8 @@ class VolumeMixer(QWidget):
                 'whatsappvoip.exe': 'WhatsApp',
                 'steamwebhelper.exe': 'Steam',
                 'discord.exe': 'Discord',
-                'opera.exe': 'Opera'
+                'opera.exe': 'Opera',
+                'zWebview2Agent': 'Zoom'
             }
 
             process_map = {}
