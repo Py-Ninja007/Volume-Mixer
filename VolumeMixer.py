@@ -101,35 +101,45 @@ class VolumeMixer(QWidget):
             sessions = AudioUtilities.GetAllSessions()
             current_process_ids = set()
             new_programs = []
-            exclude_processes = ['audiodg.exe', 'explorer.exe', 'SndVol.exe', 'SearchUI.exe', 'svchost.exe',
-                                 'avastUI.exe', 'avgui.exe', 'OneDrive.exe', 'Dropbox.exe', 'googledrivesync.exe']
+            exclude_processes = [
+                'audiodg.exe', 'explorer.exe', 'SndVol.exe', 'SearchUI.exe',
+                'svchost.exe', 'avastUI.exe', 'avgui.exe', 'OneDrive.exe',
+                'Dropbox.exe', 'googledrivesync.exe','SteelSeriesSonar.exe',
+                'SteelSeriesEngine.exe', 'SteelSeriesPrism.exe', 'steelseriessonar.exe'
+            ]
             media_players = {
-                'vlc.exe': 'VLC Media Player',
+                'vlc.exe': 'VLC',
                 'wmplayer.exe': 'Windows Media Player',
                 'iTunes.exe': 'iTunes',
                 'potplayer.exe': 'PotPlayer',
-                'mpc-hc.exe': 'Media Player Classic',
+                'mpc-hc.exe': 'Media Player',
                 'zoom.exe': 'Zoom',
                 'Zoom.exe': 'Zoom',
                 'zoommeeting.exe': 'Zoom',
-                'MicrosoftEdge.exe': 'Microsoft Edge',
+                'MicrosoftEdge.exe': 'Edge',
                 'Teams.exe': 'Microsoft Teams',
                 'Word.exe': 'Microsoft Word',
                 'Excel.exe': 'Microsoft Excel',
-                'PowerPoint.exe': 'Microsoft PowerPoint',
+                'PowerPoint.exe': 'PowerPoint',
                 'whatsapp.exe': 'WhatsApp',
                 'whatsappvoip.exe': 'WhatsApp',
-                'steamwebhelper.exe': 'Steam'
+                'steamwebhelper.exe': 'Steam',
+                'discord.exe': 'Discord',
+                'opera.exe': 'Opera'
             }
 
             process_map = {}
 
             for session in sessions:
                 if session.Process:
-                    process_name = session.Process.name()
+                    process_name = session.Process.name().lower()
                     process_id = session.Process.pid
 
-                    main_program_name = media_players.get(process_name.lower(), process_name)
+                    # Skip excluded processes
+                    if process_name in exclude_processes:
+                        continue
+
+                    main_program_name = media_players.get(process_name, process_name)
                     cleaned_name = re.split(r'[.,()]', main_program_name)[0].strip()
 
                     if cleaned_name not in process_map:
